@@ -1,0 +1,52 @@
+
+# 1.设置舆情系统web访问端口，默认端口号7788
+server:
+  port: 7788
+  servlet:
+    session:
+      cookie:
+        name: local-portal
+        max-age: 3600
+      timeout: 3600
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+
+spring:
+  profiles:
+    active: dev
+  devtools:
+    restart:
+      enabled: true #热部署生效
+  application:
+    name: public_opinion_monitor
+
+  # flyway 自动建库建表设置
+  flyway:
+    enabled: true
+    clean-disabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+# mybatis-plus相关配置
+mybatis-plus:
+  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+  mapper-locations: classpath:mapper/*.xml
+  # 以下配置均有默认值,可以不设置
+  global-config:
+    db-config:
+      #主键类型 AUTO:"数据库ID自增" INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: auto
+      #字段策略 IGNORED:"忽略判断"  NOT_NULL:"非 NULL 判断")  NOT_EMPTY:"非空判断"
+      field-strategy: NOT_EMPTY
+      #数据库类型
+      db-type: MYSQL
+      logic-delete-field: deleteFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
+    call-setters-on-nulls: true

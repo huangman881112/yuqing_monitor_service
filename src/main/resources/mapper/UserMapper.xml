@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.nobug.public_opinion_monitor.dao.UserDao">
+    <select id="onlinestatistical" resultType="map">
+	    select
+	        end_login_time,login_count, onlinetotal.val
+	    from user u ,
+	        (select count(1) val from user where is_online = 1 ) as onlinetotal
+	    where u.user_id =#{userId}
+    </select>
+
+</mapper>
